@@ -1,0 +1,18 @@
+{
+  "name": "DiskoBOTlo",
+  "version": "1.0.0",
+  "description": "Bot de Discord de la Asocación Diskobolo de la Facultad de Informática de la Universidad Complutense de Madrid.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fernando Méndez (https://fermdez.ddns.net | @HumperCobra)",
+  "license": "Educational Community License v2.0 (ECL-2.0)",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "mc-ping-updated": "^0.1.1",
+    "mcping-js": "^1.5.0"
+  },
+  "devDependencies": {},
+  "keywords": []
+}

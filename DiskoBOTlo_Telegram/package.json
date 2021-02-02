@@ -1,0 +1,16 @@
+{
+  "name": "DiskoboBOTlo",
+  "version": "3.0.0",
+  "description": "Bot de la asociación Diskobolo de la Facultad de Informática de la Universidad Complutense de Madrid.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Fernando Méndez Torrubiano (https://fermdez.ddns.net | @HumperCobra)",
+  "license": "Educational Community License v2.0 (ECL-2.0)",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.51.0",
+    "weather-js": "^2.0.0"
+  }
+}
