@@ -6,12 +6,12 @@
 3. [Advertencia](#3-advertencia-%EF%B8%8F)
 4. [Generar un token para tu bot](#4-generar-un-token-para-tu-bot-)
 5. [Añadir el Bot a tu servidor de Discord](#5-añadir-el-bot-al-servidor-%EF%B8%8F)
-6. [Ejecución](#6-añadir-el-bot-al-servidor)
-* 6.1. [Instalación _node_modules_](#instalación-node_modules-)
-* 6.2. [Poner el Bot en producción](#poner-el-bot-en-producción-%EF%B8%8F)
-   * 6.2.1. [En Windows](#en-windows-)
-   * 6.2.2. [En Linux](#en-linux-debianubuntu-)
-* 6.3 [Añadir nuevas librerías](#53-añadir-nuevas-librerías-)
+6. [Ejecución](#6-ejecución-%EF%B8%8F)
+* 6.1. [Instalación _node_modules_](#61-instalación-node_modules-)
+* 6.2. [Poner el Bot en producción](#62-poner-el-bot-en-producción-%EF%B8%8F)
+   * 6.2.1. [En Windows](#621-en-windows-)
+   * 6.2.2. [En Linux](#622-en-linux-debianubuntu-)
+* 6.3 [Añadir nuevas librerías](#63-añadir-nuevas-librerías-)
 7. [Licencia](#7-licencia-)
 ***
 ## 1. Descripción 📖
