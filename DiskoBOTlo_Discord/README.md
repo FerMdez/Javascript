@@ -4,14 +4,14 @@
 1. [Descripción](#1-descripción-)
 2. [Autor](#2-autor-%EF%B8%8F)
 3. [Advertencia](#3-advertencia-%EF%B8%8F)
-4. [Generar un token con @BotFather](#4-generar-un-token-con-botfather)
-5. [Ejecución](#5-ejecución-%EF%B8%8F)
-* 5.1. [Instalación _node_modules_](#instalación-node_modules-)
-* 5.2. [Poner el Bot en producción](#poner-el-bot-en-producción-%EF%B8%8F)
-   * 5.2.1. [En Windows](#en-windows-)
-   * 5.2.2. [En Linux](#en-linux-debianubuntu-)
-* 5.3 [Añadir nuevas librerías](#53-añadir-nuevas-librerías-)
-6. [Licencia](#6-licencia-)
+4. [Generar un token para tu bot](#4-generar-un-token-para-tu-bot)
+6. [Ejecución](#6-añadir-el-bot-al-servidor)
+* 6.1. [Instalación _node_modules_](#instalación-node_modules-)
+* 6.2. [Poner el Bot en producción](#poner-el-bot-en-producción-%EF%B8%8F)
+   * 6.2.1. [En Windows](#en-windows-)
+   * 6.2.2. [En Linux](#en-linux-debianubuntu-)
+* 6.3 [Añadir nuevas librerías](#53-añadir-nuevas-librerías-)
+7. [Licencia](#7-licencia-)
 ***
 ## 1. Descripción 📖
 Bot de Discord para la Asociación Diskobolo de la Facultad de Informática de la Universidad Complutense de Madrid.
