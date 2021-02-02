@@ -14,26 +14,38 @@
 6. [Licencia](#6-licencia-)
 ***
 ## 1. Descripción 📖
-Bot de Telegram para la Asociación Diskobolo de la Facultad de Informática de la Universidad Complutense de Madrid.
+Bot de Discord para la Asociación Diskobolo de la Facultad de Informática de la Universidad Complutense de Madrid.
 ***
 ## 2. Autor ✒️
 Fernando Méndez (https:/fermdez.ddns.net | @HumperCobra)
 ***
 ## 3. Advertencia ⚠️
-Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A_TU_TOKEN';_ en el archivo *bot.js*.
+Desbes generar tu propio token para el bot y añadirlo a _"BOT_TOKEN" : "AQUÍ_A_TU_TOKEN"_ en el archivo *config.json*.
 ***
-## 4. Generar un token con @BotFather
-1. Inicia un chat con https://t.me/botfather
-2. Escribe en el chat el comando */newbot*
-3. Te pedirá el alias y luego el nombre del bot (debe contener la palabra _bot_).
-4. Nos devolverá el token de nuestro bot, por ejemplo:
-
-    > Use this token to access the HTTP API: 668219748:ABCRTZu7zNT5QO2bRfZfbPIXBLXb2U-ojVX
+## 4. Generar un token para tu bot.
+1. Entra en: https://discord.com/developers/applications/
+2. Haz click en *New Application*.
+3. Añade un nombre para el bot y pulsa en *Create*.
+4. En la pestaña de *Bot*, pulsamos en *Add Bot* y hacemos click en *Yes, do it!*.
+5. Aquí podremos copiar el *Token del Bot*, pulsando en *Copy*.
+***
+## 5. Añadir el Bot al servidor.
+1. Continuando desde la página que estábamos en el paso anterior, pulsar en *OAuth2*.
+2. En *SCOPES* selecionar *bot*.
+3. En *BOT PERMISSIONS* seleccionar *Administrator*
+4. Hacemos click en *Copy* y pegamos el enlace generado en el navegador con nuestra cuenta de discord iniciada.
+5. Seleccionamos el servidor al que queremos añadir el bot.
 ***  
-## 5. Ejecución 🛠️
-### 5.1 Instalación _node_modules_ 🔧
+## 6. Ejecución 🛠️
+### 6.1 Instalación _node_modules_ 🔧
 1. Creamos un directorio para el bot y guardamos ahí el archivo *bot.js*.
-2. Instalar *node.js* 
+2. Creamos el archivo *config.json*, donde escribimos el *Token del Bot*, con el siguente formato:
+   ```
+     {
+         "BOT_TOKEN" : "TOKEN_DE_TU_BOT",
+     }
+   ```
+3. Instalar *node.js* 
   * En Windows/Mac: https://nodejs.org/es/download/.
   * Si tienes Linux (Debian/Ubuntu), usa los siguientes comandos:
       ```
@@ -49,18 +61,18 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
         $ cd ./ruta_del_directorio_del_bot/
         $ npm install
       ```
-3. Comprobar que se ha instalado con el comando:
+4. Comprobar que se ha instalado con el comando:
  ```
    >/$ node --version
  ```
-4. Dentro del directorio del bot, ejecutar los siguientes comandos:
+5. Dentro del directorio del bot, ejecutar los siguientes comandos:
  ```
    >/$ npm init --yes
-   >/$ npm install --save node-telegram-bot-api
+   >/$ npm install discord.js
  ```
-5. Comprobar que se ha generado el directorio _node_modules_.
-### 5.2 Poner el Bot en producción ⚙️
-#### 5.2.1 En Windows 💻
+6. Comprobar que se ha generado el directorio _node_modules_.
+### 6.2 Poner el Bot en producción ⚙️
+#### 6.2.1 En Windows 💻
 * Instala *nodejs*, si no lo hiciste en el punto anterior: https://nodejs.org/es/download/
 * Ejecutar en CMD o PS los comandos:
  ```
@@ -69,7 +81,7 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
  ```
 * El proceso se puede automatizar creando un archivo .bat y añadiéndolo al programador de tareas.
 
-#### 5.2.2 En Linux (Debian/Ubuntu) 🐧
+#### 6.2.2 En Linux (Debian/Ubuntu) 🐧
 * Instalamos *nodejs*, si no lo hicimos en el punto anterior:
  ```
   $ sudo apt-get update
@@ -92,7 +104,7 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
 
 * El proceso se puede automatizar creando un script.
 
-### 5.3 Añadir nuevas librerías 📚
+### 6.3 Añadir nuevas librerías 📚
 * Primero abrir un terminal/PowerShell/CMD (dependiendo de nuestro SO) e ir al directorio de nuestro bot:
    ```
    cd ./ruta_del_directorio_del_bot/
@@ -102,5 +114,5 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
    npm install weather-js
    ```
 ***
-## 6. Licencia 📄
+## 7. Licencia 📄
 Educational Community License v2.0 (ECL-2.0).
