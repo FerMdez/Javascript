@@ -1,4 +1,4 @@
-# DiskoBOTlo_bot 🤖
+# DiskoBOTlo_Telegram_bot 🤖
 
 ## Índice
 1. [Descripción](#1-descripción-)
