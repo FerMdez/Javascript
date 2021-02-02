@@ -22,14 +22,14 @@ Fernando Méndez (https:/fermdez.ddns.net | @HumperCobra)
 ## 3. Advertencia ⚠️
 Desbes generar tu propio token para el bot y añadirlo a _"BOT_TOKEN" : "AQUÍ_A_TU_TOKEN"_ en el archivo *config.json*.
 ***
-## 4. Generar un token para tu bot.
+## 4. Generar un token para tu bot 💰
 1. Entra en: https://discord.com/developers/applications/
 2. Haz click en *New Application*.
 3. Añade un nombre para el bot y pulsa en *Create*.
 4. En la pestaña de *Bot*, pulsamos en *Add Bot* y hacemos click en *Yes, do it!*.
 5. Aquí podremos copiar el *Token del Bot*, pulsando en *Copy*.
 ***
-## 5. Añadir el Bot al servidor.
+## 5. Añadir el Bot al servidor 🖥️
 1. Continuando desde la página que estábamos en el paso anterior, pulsar en *OAuth2*.
 2. En *SCOPES* selecionar *bot*.
 3. En *BOT PERMISSIONS* seleccionar *Administrator*
