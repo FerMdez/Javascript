@@ -44,12 +44,13 @@ const weather = require('weather-js');
 const { brotliCompress } = require('zlib');
 const { Recoverable } = require('repl');
 const { userInfo } = require('os');
+const { privateDecrypt } = require('crypto');
 const keyboard = Markup.inlineKeyboard([
     Markup.urlButton('❤️', 'http://telegraf.js.org'),
     Markup.callbackButton('Delete', 'delete')
 ])
 const helper = _private.helper();
-/* ---------------------------AÑADIR EN EL ARCHIVO private.js LOS IDs DE LOS ADMINISTRADORES DEL BOT---------------------------*/
+/* ---------------------------LISTA DE ADMINISTRADORES ADMINISTRADORES DEL BOT---------------------------*/
 const _admins= _private.admins();
 /* --------------------------------------------------------------------------------------------------------*/
 
@@ -257,6 +258,10 @@ bot.onText(/^\/enviar/, function(msg){
 // Muestra los Estatutos y reglamento del régimen interno:
 bot.onText(/^\/estatutos/, function(msg){
     getEstatutos(msg);
+});
+
+bot.onText(/^\/addmin/, function(msg){
+    setAdmin(msg);
 });
 
 
@@ -480,7 +485,7 @@ function getHelp(msg){
           "/despacho - *¿No sabes dónde está nuestro bunker?* Con este comando lo averigüarás. 📍🌍️ \n\n" +
            "/help  - Muestra la información de cada comando. 📑🖨️ \n\n" +
             "/minecraft - Comprueba el *estado de nuestro servidor de Meincraff*, debería estar abierto durante 1000 años ⛏🧱 \n\n" +
-             "/rrss - Todas las *redes sociales de Diskobolo*. 🕊️📷 \n\n" +
+             "/rrss - Todas las *redes sociales de Diskobolo*. 🐦📷 \n\n" +
               "/sistemadeldia - ¿Quemando ISOs todo el día? 😥️ *¡Te ayudamos a elegir el sistema todos los días!* 😜️ \n\n" +
                "/weather - Muestra el *clima actual en Ciudad Universitaria*. 🌞⛅ \n\n" +
                 "/web - ¿Quieres saber si Chema Alonso ha hackiado tu internete y por eso no te carga nuestra web? 😱️ ¡Nosotros lo comprobamos por ti! 😊️ \n\n" + 
@@ -513,7 +518,7 @@ function getRedes(msg){
                 text:"Web🌐", url:"https://diskobolo.fdi.ucm.es/"
                 },
                 {
-                text:"Twitter🕊️", url:"https://twitter.com/DskBolo"
+                text:"Twitter🐦", url:"https://twitter.com/DskBolo"
                 }
             ],
             [
@@ -543,7 +548,103 @@ function getRedes(msg){
 
 // Muestra las próximas actividades de Dsikobolo:
 function getActividades(msg){
-    // Esta función no ha podido ser liberada por razones de seguridad y privacidad de la asociación.
+    var userId = msg.from.id;
+    var userName = msg.from.first_name;
+    if(msg.text == '/actividades' || msg.text == '/actividades@DiskoBOTlo_BOT'){
+        var chatId = msg.chat.id;
+        var msgId = msg.message_id;
+        var msgDate= msg.date;
+    }
+    else {
+        var chatId = msg.message.chat.id;
+        var msgId = msg.message.message_id;
+        var msgDate = msg.message.date;
+    }
+
+    if (userId == temporalactividades_usuario) {
+        //console.log("Usuario interactuando con el bot, ID: " + userId);
+        if ((msgDate) > (temporalactividades_fecha + 10) || (msgDate) == (temporalactividades_fecha)) {
+            //console.log(chatId);
+            //bot.sendMessage(userId, userName + ", estas son las próximas actividades de Diskobolo.");
+            parseData(html, chatId, msg);
+        } else {
+            bot.sendMessage(userId, userName + ", espera y vuelve a intentarlo más tarde.");
+            bot.deleteMessage(chatId, msgId)
+            temporalactividades_fecha = msgDate;
+        }
+    } else {
+        if ((msgDate) > (temporalactividades_fecha + 10) || (msgDate) == (temporalactividades_fecha)) {
+            //console.log(chatId);
+            //bot.sendMessage(userId, userName + ", estas son las próximas actividades de Diskobolo.");
+            parseData(html, chatId, msg);
+        }
+        temporalactividades_usuario = userId;
+        temporalactividades_fecha = msgDate;
+        //console.log("Usuario interactuando con el bot, ID: " + userId);
+    }
+    temporalactividades_comando = true;
+}
+// Parsea los datos de las actividades de la web:
+function parseData(html, idchat, msg) {
+    var userName = msg.from.first_name;
+    var userId = msg.from.id;
+    var date = msg.date;
+    const { JSDOM } = jsdom;
+    const dom = new JSDOM(html);
+    const $ = (require('jquery'))(dom.window);
+    //let's start extracting the data
+    var counter = 0;
+    var aux = 0;
+    $('table tr td').each(function (cmp) {
+        var casa = sustituirvalor(counter, aux);
+        var burrito
+        //console.log(counter + "\n" + aux + $(this).text())
+        if (aux == 3) {
+            counter = 0;
+            aux = 0;
+            burrito = ""
+            casa = sustituirvalor(counter, aux);
+            counter++;
+            aux++;
+        } else {
+            burrito = ""
+            counter++;
+            aux++;
+        }
+        if ($(this).text() == "Semana de la Informática Diskóbolo 1996 (SID96)") {
+            return false;
+        }
+        fs.appendFileSync("temp.txt", casa + " " + "<i>" + $(this).text() + "</i>" + burrito, (err) => {
+            if (err) console.log(err);
+            console.log("Successfully Written to File.");
+        });
+
+    });
+    try {
+        var data = fs.readFileSync('temp.txt', 'utf8');
+        var texto = data.toString();
+        bot.sendMessage(idchat, userName + ", estas son las próximas actividades de Diskobolo: " + texto, { parse_mode: 'HTML' });
+        console.log("[" + Date(date) + "] " + userName + "(" + userId + "): Ha usado el comando /actividades.");
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    fs.unlink('temp.txt', function (err) {
+        if (err) throw err;
+        // if no error, file has been deleted successfully
+        console.log('File deleted!');
+    });
+}
+// Tabla de actividades:
+function sustituirvalor(counter, aux) {
+    if (counter == 0) {
+        return "\n \n 🌟️ <b>ACTIVIDAD:</b> "
+    }
+    if (counter == 1) {
+        return "\n 📰️ <b>DESCRIPCIÓN:</b> "
+    }
+    if (counter == 2) {
+        return "\n 🕓️ <b>FECHA:</b> "
+    }
 }
 
 //Funciones para mostrar el estado del servidor de Minecraft:
@@ -552,18 +653,143 @@ function getMinecraft(msg){
 }
 // Muestra los jugadores conectados al servidor de Minecraft:
 function getJugadores(msg) {
-   // Esta función no ha podido ser liberada por razones de seguridad y privacidad de la asociación.
+    var myData = [];
+    var requestify = require('requestify');
+    var jsdoms = require("jsdom");
+    const { JSDOM } = jsdom;
+    const { window } = new JSDOM();
+    const { document } = (new JSDOM('')).window;
+    global.document = document;
+
+    var $ = jQuery = require('jquery')(window);
+
+    $.getJSON('https://api.mcsrvstat.us/2/diskobolo.fdi.ucm.es', function (status) {
+        //Show the version
+        console.log(status.version);
+        console.log(status.players.online)
+        //Show a list of players
+        $.each(status.players.list, function (index, player) {
+            console.log(player);
+            myData.push(player)
+
+        });
+        getServidorMinecraft(msg, myData)
+    });
+
+}
+// Muestra la información del servidor de Minecraft:
+function getServidorMinecraft(msg, myData) {
+    console.log(msg.forward_from_chat);
+    var userId = msg.from.id;
+    var userName = msg.from.first_name;
+    if(msg.text == '/minecraft' || msg.text == '/minecraft@DiskoBOTlo_BOT'){
+        var chatId = msg.chat.id;
+        var msgId = msg.message_id;
+        var msgDate= msg.date;
+    }
+    else {
+        var chatId = msg.message.chat.id;
+        var msgId = msg.message.message_id;
+        var msgDate = msg.message.date;
+    }
+    if (userId == temporalminecraft_usuario) {
+        if ((msgDate) > (temporalminecraft_fecha + 10) || (msgDate) == (temporalminecraft_fecha)) {
+            mcping('diskobolo.fdi.ucm.es', 25565, function (err, res) {
+                if (err) {
+                    // Some kind of error
+                    console.error(err);
+                    bot.sendMessage(chatId, userName + ", el servidor no funciona. Ha debido explotar un creeper 🤷‍♂️");
+                } else {
+                    // Success!
+                    bot.sendMessage(chatId, userName + ": 🤯️* ESTADO DEL SERVIDOR DE MINECRAFT *🤯️" + "\n \n" + "*Server:* " + res.server_name + "\n \n" + "*Versión de Minecraft: *" + res.minecraft_version + "\n \n" + "*Número de jugadores conectados: *" + res.num_players + "\n \n" + "*JUGADORES:* " + "\n" + myData, { parse_mode: 'Markdown' })
+                    console.log(res.server_name);
+                    temporalminecraft_fecha = msgDate;
+                }
+            }, 3000)
+        } else {
+            bot.sendMessage(userId, userName + ", espera y vuelve a intentarlo más tarde.");
+            bot.deleteMessage(chatId, msgId)
+            temporalminecraft_fecha = msgDate;
+        }
+    } else {
+        if ((msgDate) > (temporalminecraft_fecha + 10) || (msgDate) == (temporalminecraft_fecha)) {
+            mcping('diskobolo.fdi.ucm.es', 25565, function (err, res) {
+                if (err) {
+                    // Some kind of error
+                    console.error(err);
+                } else {
+                    // Success!
+                    bot.sendMessage(chatId, userName + ": 🤯️* ESTADO DEL SERVIDOR DE MINECRAFT *🤯️" + "\n \n" + "*Server:* " + res.server_name + "\n \n" + "*Versión de Minecraft: *" + res.minecraft_version + "\n \n" + "*Número de jugadores conectados: *" + res.num_players + "\n \n" + "*JUGADORES:* " + "\n" + myData, { parse_mode: 'Markdown' })
+                    console.log(res.server_name);
+                    temporalminecraft_fecha = msgDate;
+                }
+            }, 3000)
+        }
+        temporalminecraft_usuario = userId;
+        temporalminecraft_fecha = msgDate;
+        console.log("[" + Date(msgDate) + "] " + userName + "(" + userId + "): Ha usado el comando /minecraft.");
+    }
+    temporalminecraft_comando = true;
 }
 
 // Devuelve el estado de la web de Diskobolo:
 function getWeb(msg){
-    // Esta función no ha podido ser liberada por razones de seguridad y privacidad de la asociación.
+    var userId = msg.from.id;
+    var userName = msg.from.first_name;
+    if(msg.text == '/web' || msg.text == '/web@DiskoBOTlo_BOT'){
+        var chatId = msg.chat.id;
+        var msgId = msg.message_id;
+        var msgDate= msg.date;
+    }
+    else {
+        var chatId = msg.message.chat.id;
+        var msgId = msg.message.message_id;
+        var msgDate = msg.message.date;
+    }
+    if (userId == temporalweb_usuario) {
+        //console.log("Usuario interactuando con el bot, ID: " + userId);
+        if ((msgDate) > (temporalweb_fecha + 10) || (msgDate) == (temporalweb_fecha)) {
+            curl.get("https://diskobolo.fdi.ucm.es/", null, (err, resp, body) => {
+                if (resp.statusCode == 404) {
+                    bot.sendMessage(chatId, userName + " ¡Chema Alonso ha hackiado la web!");
+                }
+                else {
+                    //some error handling
+                    bot.sendMessage(chatId, userName + ", la web funciona correctamente. ✔️");
+                    temporalweb_fecha = msgDate;
+                }
+            });
+        } else {
+            bot.sendMessage(userId, userName + ", espera y vuelve a intentarlo más tarde.");
+            bot.deleteMessage(chatId, msgId)
+            temporalweb_fecha = msgDate;
+        }
+    } else {
+        if ((msgDate) > (temporalweb_fecha + 10) || (msgDate) == (temporalweb_fecha)) {
+            curl.get("http://diskobolo.fdi.ucm.es/", null, (err, resp, body) => {
+                if (resp.statusCode == 404) {
+                    bot.sendMessage(chatId, userName + " ¡Chema Alonso ha hackiado la web! ❌");
+                }
+                else {
+                    //some error handling
+                    bot.sendMessage(chatId, userName + ", la web funciona correctamente. ✔️");
+                    temporalweb_fecha = msgDate;
+                }
+            });
+        }
+        temporalweb_usuario = userId;
+        temporalweb_fecha = msgDate;
+        //console.log("Nuevo usuario interactuando con el bot, ID: " + userId);
+    }
+    temporalweb_comando = true;
+    console.log("[" + Date(msgDate) + "] " + userName + "(" + userId + "): Ha usado el comando /web.");
 }
 
 // Devuelve el sistema operativo del día:
 function getSistemadeldia(msg){
     var userId = msg.from.id;
     var userName = msg.from.first_name;
+
     if(msg.text == '/sistemadeldia' || msg.text == '/sistemadeldia@DiskoBOTlo_BOT'
         || msg.text == '/so' || msg.text == '/so@DiskoBOTlo_BOT'){
         var chatId = msg.chat.id;
@@ -757,11 +983,12 @@ function admin(msg) {
     if (getpermisos(msg)) {
         if (tipoChat == 'private'){
             bot.sendMessage(chatId, "Bienvenido a la sala de máquinas de Diskóbolo. \n ¿Qué quieres saber? \n\n" +
-            'Comandos disponibles: \n\n 1. El bot envia un mensaje por el grupo. \n *Solo debe ser empleado para comunicados oficiales con autorización previa del presidente.* \n Uso: _/enviar "Texto, no son necesarias las comillas."_ \n\n' + 
+            'Comandos disponibles: \n\n 1. El bot envia y fija un mensaje *AL GRUPO DE DISKOBOLO*. \n *Solo debe ser empleado para comunicados oficiales con autorización previa del presidente.* \n Uso: _/enviar "Texto, no son necesarias las comillas."_ \n\n' + 
             '2. Comprobar que el bot funciona correctamente. \n *No sirve para nada.* \n Uso: _/ping "Debe devolver: Pong 🏓"_  \n\n' +
-            '3. Obtener tu id de usuario. \n *Para añadir administradores del bot que puedan acceder a estos comandos (lo pueden usar NO administradores, para que su función tenga sentido).* \n Uso: _/myid "Delvolverá un id de usuario que debe añadirse a la constante "admins" (línea 14), del archivo "private.js" del servidor de Diskobolo."_ \n\n' +
-            '4. Enviar el himno *AL GRUPO DE DISKOBOLO*. \n *Para escuchar antes de comenzar las juntas de socios.* \n Uso: _/himno "Devuelve un archivo de audio con el himno de DSK." _ \n\n' +
-            '5. Consultar los *estatutos* y *reglamento del régimen interno*. \n *Envía un documento con el PDF seleccionado de la asociación.* \n Uso: _/estatutos "Te dará a aelegir entre uno de los dos codumentos."_  \n\n'
+            '3. Obtener tu id de usuario. \n *Para añadir administradores del bot que puedan acceder a estos comandos (lo pueden usar NO administradores, para que su función tenga sentido).* \n Uso: _/myid "Delvolverá un id de usuario."_ \n\n' +
+            '4. Añadir un nuevo administrador del BOT. \n *Tendrá acceso a todos los comandos de administración* \n Uso: _/addmin "ID del nuevo admin, SIN comillas"_ \n\n' +
+            '5. Enviar el himno *AL GRUPO DE DISKOBOLO*. \n *Para escuchar antes de comenzar las juntas de socios.* \n Uso: _/himno "Devuelve un archivo de audio con el himno de DSK." _ \n\n' +
+            '6. Consultar los *estatutos* y *reglamento del régimen interno*. \n *Envía un documento con el PDF seleccionado de la asociación.* \n Uso: _/estatutos "Te dará a aelegir entre uno de los dos codumentos."_  \n\n'
             , { parse_mode: 'Markdown' });
             
         } 
@@ -779,13 +1006,19 @@ function admin(msg) {
 function getpermisos(msg) {
     var userId = msg.from.id;
     var nameUser = msg.from.first_name;
-    if(msg.text == 'Selecciona una opción:  \n'){
-        if (msg.text.includes('/enviar') || msg.text.includes('/enviar@DiskoBOTlo_BOT')){
-            var chatId = msg.chat.id;
-        }
+
+    if(msg.data == 'admin'){
+        var chatId = msg.message.chat.id;
+        var date = msg.message.date;
     } else {
-        if(msg.text == '/admin' || msg.text == '/admin@DiskoBOTlo_BOT'
+        if (msg.text.includes('/enviar') || msg.text.includes('/enviar@DiskoBOTlo_BOT')
+            || msg.text.includes('/addmin') || msg.text.includes('/addmin@DiskoBOTlo_BOT')) {
+            var chatId = msg.chat.id;
+            var date = msg.date;
+        }
+        else if(msg.text == '/admin' || msg.text == '/admin@DiskoBOTlo_BOT'
             || msg.text == '/ping' || msg.text == '/ping@DiskoBOTlo_BOT'
+            || msg.text == '/himno' || msg.text == '/himno@DiskoBOTlo_BOT'
             || msg.text == '/estatutos' || msg.text == '/estatutos@DiskoBOTlo_BOT'){
             var chatId = msg.chat.id;
             var date = msg.date;
@@ -795,6 +1028,8 @@ function getpermisos(msg) {
             var date = msg.message.date;
         }
     }
+    console.log(chatId);
+    
     var admin = false;
     var i = 0;
 
@@ -853,6 +1088,40 @@ function getMyId(msg) {
         bot.sendMessage(chatId, "Tu id es: " + myId);
         console.log("[" + Date(date) + "] " + userName + "(" + myId + "): Ha usado el comando /myid.");
     } 
+    else if (tipoChat == 'supergroup' || tipoChat == 'group') {
+        bot.sendMessage(chatId, "Este comando sólo funciona en privado.");
+    }
+}
+
+// Añadir un administrador:
+function setAdmin(msg) {
+    var chatId = msg.chat.id;
+    var userName = msg.from.first_name;
+    var myId = msg.from.id;
+    var date = msg.date;
+    var tipoChat = msg.chat.type;
+    var mensaje = msg.text;
+    var id = '';
+    
+    if (tipoChat == 'private'){
+        if (getpermisos(msg)) {
+            if(mensaje[7] != " ") {
+                bot.sendMessage(chatId, "Error al añadir el administrador. Comprueba que el ID es correcto.");
+                console.log("[" + Date(date) + "] " + userName + "(" + myId + "): Error al añadir un nuevo administrador.");
+            }
+            else {
+                for(var i = 8; i < mensaje.length; i++){
+                    id += mensaje[i];
+                }
+                _private.setAdmin(id);
+                bot.sendMessage(chatId, "Se ha añadido el nuevo administrador: " + id);
+                console.log("[" + Date(date) + "] " + userName + "(" + myId + "): Ha añadido el nuevo administrador: " + id);
+            }
+        }
+        else {
+            bot.sendMessage(chatId, "Lo siento " + userName + ", no eres administrador.");
+        }
+    }
     else if (tipoChat == 'supergroup' || tipoChat == 'group') {
         bot.sendMessage(chatId, "Este comando sólo funciona en privado.");
     }
