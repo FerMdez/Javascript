@@ -805,7 +805,7 @@ function getpermisos(msg) {
         i++;
     }
 
-    if (admin) { //(chatId == 505923437) /* President Fer (Aka Humper) */  || (chatId == 913161860) /*ViceCulo Aaron (Aka Abstención)*/ || (chatId == 960116266 /* Secre lago */)
+    if (admin) {
         console.log("[" + Date(date) + "] " + "Admin loggued, chat ID: " + chatId);
         return true;
     } else {
