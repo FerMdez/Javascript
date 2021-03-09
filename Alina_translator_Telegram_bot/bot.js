@@ -181,7 +181,7 @@ function traduce(msg){
 
 // Para sobreescribir el archivo users.json:
 const fs = require('fs');
-// Archivo con lla información de usuarios:
+// Archivo con la información de usuarios:
 const usersFile = require("./users.json");
 // Almacena los IDs de los usuarios leidos de "usuers.json":
 const _users = JSON.parse(JSON.stringify(usersFile.users));
