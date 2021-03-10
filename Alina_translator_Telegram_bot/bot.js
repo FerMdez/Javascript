@@ -8,23 +8,29 @@
   },
   "keywords": [],
   "author": "Fernando Méndez (https://fermdez.ddns.net | @HumperCobra)",
-  "license": "Educational Community License v2.0 (ECL-2.0)",
+  "license": "ISC",
 }
 
 */
 
 /* Bot token and API */
 const TelegramBot = require('node-telegram-bot-api');
-const token = ''; //Here your Bot´s token.
+const _private = require('./private.js');
+const token = _private.token();
 const bot = new TelegramBot(token, {polling:true});
 
 
 /* Translator */
 //const translate = require('translate-api');
-const translate = require('@vitalets/google-translate-api');
+const translate = require('@vitalets/google-translate-api'); //https://www.npmjs.com/package/@vitalets/google-translate-api
 //const translate = require('google-translate-api');
-//var _from = 'es';
-//var _to = 'en';
+
+// To overwrite the users.json file:
+const fs = require('fs');
+// File with user information:
+const usersFile = require("./users.json");
+// Stores user IDs read from "usuers.json":
+const _users = JSON.parse(JSON.stringify(usersFile.users));
 
 
 bot.on('polling_error', function(error){
@@ -38,6 +44,7 @@ bot.onText(/^\/start/, function(msg){
     var userIndex = indexOfArray(msg.from);
     if(userIndex === -1){
         addUser(msg.from);
+        updateUsers();
     }
     
     bot.sendMessage(chatId, "Welcome " + nameUser + "!\n\nI am a text translation bot created by *Fernando* (https://fermdez.ddns.net/en-UK/)."
@@ -70,8 +77,9 @@ bot.on('message', (msg) => {
     var nameUser = msg.from.first_name;
     var userIndex = indexOfArray(msg.from);
     if(userIndex === -1){
-        bot.sendMessage(chatId, "Welcome *"+nameUser+"*!" + "\nWe have just added you to the list of users. \n\nChoose the language you want to translate with the command: */translator*.", {parse_mode: 'Markdown'});
         addUser(msg.from);
+        updateUsers();
+        bot.sendMessage(chatId, "Welcome *"+nameUser+"*!" + "\nWe have just added you to the list of users. \n\nChoose the language you want to translate with the command: */translator*.", {parse_mode: 'Markdown'});   
     }
 
     if(msg.text.includes('Spanish[🇪🇸]') || msg.text.includes('English[🇬🇧]') || msg.text.includes('Russian[🇷🇺]')){
@@ -153,6 +161,7 @@ function traduce(msg){
     var chatId = msg.chat.id;
     var message = msg.text;
     var tipoChat = msg.chat.type;
+
     var userIndex = indexOfArray(msg.from);
     var _from = _users[userIndex].from;
     var _to = _users[userIndex].to;
@@ -175,13 +184,6 @@ function traduce(msg){
     });
 
 }
-
-// Para sobreescribir el archivo users.json:
-const fs = require('fs');
-// Archivo con la información de usuarios:
-const usersFile = require("./users.json");
-// Almacena los IDs de los usuarios leidos de "usuers.json":
-const _users = JSON.parse(JSON.stringify(usersFile.users));
 
 function addUser(newUser){
     let userToSave;
@@ -233,3 +235,30 @@ function indexOfArray(_user){
 
     return index;
 }
+
+
+
+
+
+/*
+bot.on('callback_query', function onCallbackQuery(accionboton){
+    const data = accionboton.data;
+    const msg = accionboton.message;
+    var chatId = msg.chat.id;
+
+    switch(data){
+        case 'es_en': _from='es'; _to='en';
+            bot.sendMessage(chatId, "Now I will translate the texts from *Spanish*🇪🇸 to *English*🇬🇧.", {parse_mode: 'Markdown'});
+            break ;
+        case 'en_es': _from='en'; _to='es';
+            bot.sendMessage(chatId, "Now I will translate the texts from *English*🇬🇧 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
+            break ;
+        case 'es_ru': _from='es'; _to='ru';
+        bot.sendMessage(chatId, "Now I will translate the texts from *Spanish*🇪🇸 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
+            break ;
+        case 'ru_es': _from='ru'; _to='es';
+        bot.sendMessage(chatId, "Now I will translate the texts from *Russian*🇷🇺 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
+            break ;
+    }
+});
+*/
