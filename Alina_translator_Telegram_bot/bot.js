@@ -243,30 +243,3 @@ function indexOfArray(_user){
 
     return index;
 }
-
-
-
-
-
-/*
-bot.on('callback_query', function onCallbackQuery(accionboton){
-    const data = accionboton.data;
-    const msg = accionboton.message;
-    var chatId = msg.chat.id;
-
-    switch(data){
-        case 'es_en': _from='es'; _to='en';
-            bot.sendMessage(chatId, "Now I will translate the texts from *Spanish*🇪🇸 to *English*🇬🇧.", {parse_mode: 'Markdown'});
-            break ;
-        case 'en_es': _from='en'; _to='es';
-            bot.sendMessage(chatId, "Now I will translate the texts from *English*🇬🇧 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
-            break ;
-        case 'es_ru': _from='es'; _to='ru';
-        bot.sendMessage(chatId, "Now I will translate the texts from *Spanish*🇪🇸 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
-            break ;
-        case 'ru_es': _from='ru'; _to='es';
-        bot.sendMessage(chatId, "Now I will translate the texts from *Russian*🇷🇺 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
-            break ;
-    }
-});
-*/
