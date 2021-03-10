@@ -22,7 +22,7 @@ const bot = new TelegramBot(token, {polling:true});
 
 /* Translator */
 //const translate = require('translate-api');
-const translate = require('@vitalets/google-translate-api'); //https://www.npmjs.com/package/@vitalets/google-translate-api
+const translate = require('@vitalets/google-translate-api');
 //const translate = require('google-translate-api');
 
 // To overwrite the users.json file:
