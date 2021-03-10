@@ -22,7 +22,7 @@ const bot = new TelegramBot(token, {polling:true});
 
 /* Translator */
 //const translate = require('translate-api');
-const translate = require('@vitalets/google-translate-api');
+const translate = require('@vitalets/google-translate-api'); //https://www.npmjs.com/package/@vitalets/google-translate-api
 //const translate = require('google-translate-api');
 
 // To overwrite the users.json file:
@@ -44,7 +44,7 @@ bot.onText(/^\/start/, function(msg){
     var userIndex = indexOfArray(msg.from);
     if(userIndex === -1){
         addUser(msg.from);
-        updateUsers();
+        //updateUsers();
     }
     
     bot.sendMessage(chatId, "Welcome " + nameUser + "!\n\nI am a text translation bot created by *Fernando* (https://fermdez.ddns.net/en-UK/)."
@@ -75,48 +75,51 @@ bot.onText(/^\/translator/, function(msg){
 bot.on('message', (msg) => {
     var chatId = msg.chat.id;
     var nameUser = msg.from.first_name;
+    //updateUsers();
     var userIndex = indexOfArray(msg.from);
+    
+
     if(userIndex === -1){
         addUser(msg.from);
-        updateUsers();
         bot.sendMessage(chatId, "Welcome *"+nameUser+"*!" + "\nWe have just added you to the list of users. \n\nChoose the language you want to translate with the command: */translator*.", {parse_mode: 'Markdown'});   
     }
-
-    if(msg.text.includes('Spanish[🇪🇸]') || msg.text.includes('English[🇬🇧]') || msg.text.includes('Russian[🇷🇺]')){
-        switch(msg.text){
-            case 'Spanish[🇪🇸] --> English[🇬🇧]': //_from='es'; _to='en';
-                _users[userIndex].from='es'; _users[userIndex].to='en';
-                updateUsers();
-                bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Spanish*🇪🇸 to *English*🇬🇧.", {parse_mode: 'Markdown'});
-                break ;
-            case 'English[🇬🇧] --> Spanish[🇪🇸]': //_from='en'; _to='es';
-                _users[userIndex].from='en'; _users[userIndex].to='es';
-                updateUsers();
-                bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *English*🇬🇧 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
-                break ;
-            case 'Spanish[🇪🇸] --> Russian[🇷🇺]': //_from='es'; _to='ru';
-                _users[userIndex].from='es'; _users[userIndex].to='ru';
-                updateUsers();
-                bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Spanish*🇪🇸 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
-                break ;
-            case 'Russian[🇷🇺] --> Spanish[🇪🇸]': //_from='ru'; _to='es';
-                _users[userIndex].from='ru'; _users[userIndex].to='es';
-                updateUsers();
-                bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Russian*🇷🇺 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
-                break ;
-            case 'English[🇬🇧] --> Russian[🇷🇺]': //_from='en'; _to='ru';
-                _users[userIndex].from='en'; _users[userIndex].to='ru';
-                updateUsers();
-                bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *English*🇬🇧 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
-                break ;
-            case 'Russian[🇷🇺] --> English[🇬🇧]': //_from='ru'; _to='en';
-                _users[userIndex].from='ru'; _users[userIndex].to='en';
-                updateUsers();
-                bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Russian*🇷🇺 to *English*🇬🇧.", {parse_mode: 'Markdown'});
-                break ;
+    else{
+        if(msg.text.includes('Spanish[🇪🇸]') || msg.text.includes('English[🇬🇧]') || msg.text.includes('Russian[🇷🇺]')){
+            switch(msg.text){
+                case 'Spanish[🇪🇸] --> English[🇬🇧]': //_from='es'; _to='en';
+                    _users[userIndex].from='es'; _users[userIndex].to='en';
+                    updateUsers();
+                    bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Spanish*🇪🇸 to *English*🇬🇧.", {parse_mode: 'Markdown'});
+                    break ;
+                case 'English[🇬🇧] --> Spanish[🇪🇸]': //_from='en'; _to='es';
+                    _users[userIndex].from='en'; _users[userIndex].to='es';
+                    updateUsers();
+                    bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *English*🇬🇧 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
+                    break ;
+                case 'Spanish[🇪🇸] --> Russian[🇷🇺]': //_from='es'; _to='ru';
+                    _users[userIndex].from='es'; _users[userIndex].to='ru';
+                    updateUsers();
+                    bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Spanish*🇪🇸 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
+                    break ;
+                case 'Russian[🇷🇺] --> Spanish[🇪🇸]': //_from='ru'; _to='es';
+                    _users[userIndex].from='ru'; _users[userIndex].to='es';
+                    updateUsers();
+                    bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Russian*🇷🇺 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
+                    break ;
+                case 'English[🇬🇧] --> Russian[🇷🇺]': //_from='en'; _to='ru';
+                    _users[userIndex].from='en'; _users[userIndex].to='ru';
+                    updateUsers();
+                    bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *English*🇬🇧 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
+                    break ;
+                case 'Russian[🇷🇺] --> English[🇬🇧]': //_from='ru'; _to='en';
+                    _users[userIndex].from='ru'; _users[userIndex].to='en';
+                    updateUsers();
+                    bot.sendMessage(chatId, "*"+nameUser+"*" + ", now I will translate the texts from *Russian*🇷🇺 to *English*🇬🇧.", {parse_mode: 'Markdown'});
+                    break ;
+            }
+        } else if(!msg.text.includes('/') && userIndex != -1){
+            traduce(msg);
         }
-    } else if(!msg.text.includes('/') && userIndex != -1){
-        traduce(msg);
     }
 });
 
@@ -160,9 +163,13 @@ function translator(msg){
 function traduce(msg){
     var chatId = msg.chat.id;
     var message = msg.text;
-    var tipoChat = msg.chat.type;
+    //var tipoChat = msg.chat.type;
 
     var userIndex = indexOfArray(msg.from);
+    /* if(userIndex === -1){
+        addUser(msg.from);
+        userIndex = indexOfArray(msg.from);
+    } */
     var _from = _users[userIndex].from;
     var _to = _users[userIndex].to;
 
@@ -197,7 +204,7 @@ function addUser(newUser){
     if (index === -1){
         _users.push(newUser);
         userToSave = {users:_users};
-        fs.writeFile('users.json', JSON.stringify(userToSave), 'utf8', (err) => {
+        fs.writeFile('./users.json', JSON.stringify(userToSave), 'utf8', (err) => {
             if (err) /*throw err*/  console.log('ERROR: no se ha actualizado la lista de Usuarios.');
         });
         console.log(newUser + ' Usuario nuevo añadido la base de datos.');
@@ -208,7 +215,7 @@ function addUser(newUser){
 
 function updateUsers(){
     let userToSave = {users:_users};
-    fs.writeFile('users.json', JSON.stringify(userToSave), 'utf8', (err) => {
+    fs.writeFile('./users.json', JSON.stringify(userToSave), 'utf8', (err) => {
         if (err) /*throw err*/  console.log('ERROR: no se ha actualizado la lista de Usuarios.');
     });
 
@@ -216,13 +223,14 @@ function updateUsers(){
 
 function indexOfArray(_user){
     var encontrado = false;
+    var index = 0;
     var i = 0;
     
-    if(_users.length == 0){
-        var index = -1;
+    if(_users.length === 0){
+        index = -1;
     } else {
         while(!encontrado && i < _users.length){
-            var index = _users.findIndex(function (_user) {
+            index = _users.findIndex(function (_user) {
                 if(i > 0) return _users[i].id === _user.id;
             });
             if(index != -1){
