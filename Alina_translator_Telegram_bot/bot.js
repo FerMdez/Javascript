@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "Fernando Méndez (https://fermdez.ddns.net | @HumperCobra)",
-  "license": "ISC",
+  "license": "Educational Community License v2.0 (ECL-2.0)",
 }
 
 */
