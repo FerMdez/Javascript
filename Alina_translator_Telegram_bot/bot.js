@@ -9,9 +9,6 @@
   "keywords": [],
   "author": "Fernando Méndez (https://fermdez.ddns.net | @HumperCobra)",
   "license": "Educational Community License v2.0 (ECL-2.0)",
-  "dependencies": {
-    "i18n": "^0.13.2",
-    "node-telegram-bot-api": "^0.51.0"
 }
 
 */
