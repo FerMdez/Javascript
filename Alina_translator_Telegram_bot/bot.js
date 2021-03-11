@@ -22,16 +22,27 @@ const bot = new TelegramBot(token, {polling:true});
 
 /* Translator */
 //const translate = require('translate-api');
-const translate = require('@vitalets/google-translate-api');
+const translate = require('@vitalets/google-translate-api'); //https://www.npmjs.com/package/@vitalets/google-translate-api
 //const translate = require('google-translate-api');
 
 // To overwrite the users.json file:
 const fs = require('fs');
 // File with user information:
+try {
+    if (!(fs.existsSync("./users.json"))) {
+        fs.writeFile('./users.json', JSON.stringify({users:[]}), 'utf8', function(err) {
+            if(err) return console.log(err);
+            console.log("Users file not found. A new one has been created.");
+        });
+    } else {
+        console.log("Users file load successfully.");
+    }
+} catch(err) {
+    console.log("Error creating user file: \n\n" + err);
+}
 const usersFile = require("./users.json");
 // Stores user IDs read from "usuers.json":
 const _users = JSON.parse(JSON.stringify(usersFile.users));
-
 
 bot.on('polling_error', function(error){
     console.log(error);
@@ -243,3 +254,26 @@ function indexOfArray(_user){
 
     return index;
 }
+
+/*
+bot.on('callback_query', function onCallbackQuery(accionboton){
+    const data = accionboton.data;
+    const msg = accionboton.message;
+    var chatId = msg.chat.id;
+
+    switch(data){
+        case 'es_en': _from='es'; _to='en';
+            bot.sendMessage(chatId, "Now I will translate the texts from *Spanish*🇪🇸 to *English*🇬🇧.", {parse_mode: 'Markdown'});
+            break ;
+        case 'en_es': _from='en'; _to='es';
+            bot.sendMessage(chatId, "Now I will translate the texts from *English*🇬🇧 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
+            break ;
+        case 'es_ru': _from='es'; _to='ru';
+        bot.sendMessage(chatId, "Now I will translate the texts from *Spanish*🇪🇸 to *Russian*🇷🇺.", {parse_mode: 'Markdown'});
+            break ;
+        case 'ru_es': _from='ru'; _to='es';
+        bot.sendMessage(chatId, "Now I will translate the texts from *Russian*🇷🇺 to *Spanish*🇪🇸.", {parse_mode: 'Markdown'});
+            break ;
+    }
+});
+*/
