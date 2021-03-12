@@ -28,21 +28,11 @@ const translate = require('@vitalets/google-translate-api'); //https://www.npmjs
 // To overwrite the users.json file:
 const fs = require('fs');
 // File with user information:
-try {
-    if (!(fs.existsSync("./users.json"))) {
-        fs.writeFile('./users.json', JSON.stringify({users:[]}), 'utf8', function(err) {
-            if(err) return console.log(err);
-            console.log("Users file not found. A new one has been created.");
-        });
-    } else {
-        console.log("Users file load successfully.");
-    }
-} catch(err) {
-    console.log("Error creating user file: \n\n" + err);
-}
-const usersFile = require("./users.json");
+//const usersFile = require("./users.json");
 // Stores user IDs read from "usuers.json":
-const _users = JSON.parse(JSON.stringify(usersFile.users));
+//const _users = JSON.parse(JSON.stringify(usersFile.users));
+const _users = createUsersFile();
+
 
 bot.on('polling_error', function(error){
     console.log(error);
@@ -253,4 +243,25 @@ function indexOfArray(_user){
     }
 
     return index;
+}
+
+function createUsersFile(){
+    try {
+        if (!(fs.existsSync("./users.json"))) {
+            //fs.createWriteStream('./users.json');
+            fs.writeFile('./users.json', JSON.stringify({users:[]}), 'utf8', function(err) {
+                if(err) console.log(err);
+                else console.log("Users file not found. A new one has been created.");
+            });
+            return [];
+        } else {
+            // File with user information:
+            const usersFile = require("./users.json");
+            console.log("Users file load successfully.");
+            return JSON.parse(JSON.stringify(usersFile.users));
+        }
+    } catch(err) {
+        console.log("Error creating user file: \n\n" + err);
+        return [];
+    }
 }
