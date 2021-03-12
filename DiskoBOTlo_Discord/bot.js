@@ -64,20 +64,25 @@ client.on('message', message => {
           if (err) {
               // Some kind of error
               message.channel.send('El servidor *NO* funciona. Puede que haya explotado un creeper 🤷‍♂️', { parse_mode: 'Markdown' });
-              console.error("[ " + Date() + " ]" + message.member.user.username + "Error al mostrar el estado del servidor de Minecraft.\n\n" + err);
+              console.error("[ " + Date() + " ] " + message.member.user.username + " Error al mostrar el estado del servidor de Minecraft.\n\n" + err);
           } else {
               // Success!
-              message.channel.send('⛏️*SERVIDOR DE MINECRAFT DE Diskobolo*⛏️ \n\n' +
+              message.channel.send('⛏️*SERVIDOR DE MINECRAFT DE DISKOBOLO*⛏️ \n\n' +
                                     'Estado: *ACTIVO* \n' +
                                     'IP del servidor: *diskobolo.fdi.ucm.es* \n' +
                                     'Versión del servidor: *' + res.version.name + '* \n' +
                                     'Jugadores conectados: *' + res.players.online +'*', { parse_mode: 'Markdown' });
-              console.log("[ " + Date() + " ]" + message.member.user.username + " Ha solicitado el estado del servidor de Minecraft. \n\n" + res)
+              console.log("[ " + Date() + " ] " + message.member.user.username + " Ha solicitado el estado del servidor de Minecraft. \n\n" + res)
               //console.log(res);
           }
       }, 3000);
       }
     } 
+
+  if(message.content.startsWith(prefix + 'autor') || message.content.startsWith(prefix + author)){
+    message.channel.send("Autor👤: *Fernando Méndez 'Humpercobra'* \n" +
+    "Web🌐: https://fermdez.ddns.net", {parse_mode : "Markdown"});
+  }
 });
 
 client.login(config.BOT_TOKEN);
