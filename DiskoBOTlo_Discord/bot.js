@@ -79,7 +79,7 @@ client.on('message', message => {
       }
     } 
 
-  if(message.content.startsWith(prefix + 'autor') || message.content.startsWith(prefix + author)){
+  if(message.content.startsWith(prefix + 'autor') || message.content.startsWith(prefix + 'author')){
     message.channel.send("Autor👤: *Fernando Méndez 'Humpercobra'* \n" +
     "Web🌐: https://fermdez.ddns.net", {parse_mode : "Markdown"});
   }
