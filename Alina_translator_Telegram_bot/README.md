@@ -15,7 +15,7 @@
 7. [Enlace al Bot](#7-enlace-al-bot-)
 ***
 ## 1. Descripción 📖
-Bot de Telegram para la Asociación Diskobolo de la Facultad de Informática de la Universidad Complutense de Madrid.
+Bot de Telegram para la traducción en tiempo real de textos.
 ***
 ## 2. Autor ✒️
 Fernando Méndez (https:/fermdez.ddns.net | @HumperCobra)
