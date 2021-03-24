@@ -98,9 +98,9 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
    ```
    cd ./ruta_del_directorio_del_bot/
    ```
-* Si por ejemplo queremos añadir la librería _weather-js_, deberemos escribir el siguiente comando:
+* Si por ejemplo queremos añadir la API _google-translate-api_, deberemos escribir el siguiente comando:
    ```
-   npm install weather-js
+   npm install google-translate-api
    ```
 ***
 ## 6. Licencia 📄
