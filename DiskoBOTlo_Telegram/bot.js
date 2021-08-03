@@ -559,6 +559,7 @@ function getMinecraft(msg){
 // Devuelve el estado de la web de Diskobolo:
 function getWeb(msg){
     // Esta función no ha podido ser liberada por razones de seguridad y privacidad de la asociación.
+}
 
 // Devuelve el sistema operativo del día:
 function getSistemadeldia(msg){
