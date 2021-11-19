@@ -18,7 +18,7 @@
 // Importar las librerías:
 const TelegramBot = require('node-telegram-bot-api');
 // Token del bot:
-const token = '1650731934:AAHYXV0t1hwE0j2TbcVFMXWQEfFulyj4BfU';
+const token = '';
 // Create the bot:
 const bot = new TelegramBot(token, {polling:true});
 
