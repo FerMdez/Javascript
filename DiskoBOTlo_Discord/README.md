@@ -55,7 +55,7 @@ Desbes generar tu propio token para el bot y añadirlo a _"BOT_TOKEN" : "AQUÍ_A
         $ sudo apt-get install curl
 
         $ cd ~
-        $ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+        $ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
         $ sudo apt-get install -y nodejs
 
@@ -90,7 +90,7 @@ Desbes generar tu propio token para el bot y añadirlo a _"BOT_TOKEN" : "AQUÍ_A
   $ sudo apt-get install curl
 
   $ cd ~
-  $ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+  $ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
   $ sudo apt-get install -y nodejs
 
