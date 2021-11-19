@@ -29,7 +29,7 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
 3. Te pedirá el alias y luego el nombre del bot (debe contener la palabra _bot_).
 4. Nos devolverá el token de nuestro bot, por ejemplo:
 
-    > Use this token to access the HTTP API: 668219748:ABCRTZu7zNT5QO2bRfZfbPIXBLXb2U-ojVX
+    > Use this token to access the HTTP API: 678219748:ABCRTZu8zNT1QO2bRfZfbPIXBLXb2U-ojVX
 ***  
 ## 5. Ejecución 🛠️
 ### 5.1 Instalación _node_modules_ 🔧
@@ -43,7 +43,7 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
         $ sudo apt-get install curl
 
         $ cd ~
-        $ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+        $ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
         $ sudo apt-get install -y nodejs
 
@@ -78,7 +78,7 @@ Desbes generar tu propio token para el bot y añadirlo a _const token = 'AQUÍ_A
   $ sudo apt-get install curl
 
   $ cd ~
-  $ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  $ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
   $ sudo apt-get install -y nodejs
 
